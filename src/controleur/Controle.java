@@ -66,7 +66,7 @@ public class Controle implements Global {
 	
 	
 	/**
-	 * Envoi un JLabel
+	 * Envoi un JLabel vers la Zone de Recherche
 	 * @param message Nom du JLabel qu'on va renvoyer
 	 * @return JLabel (tresor, chocobo ou message)
 	 */
@@ -83,24 +83,6 @@ public class Controle implements Global {
 			default:
 				return null;
 		}
-	}
-	
-	
-	/**
-	 * Permet d'obtenir la durée d'une partie en secondes
-	 * @return Durée de la partie en secondes
-	 */
-	public int getDureePartie() {
-		return DUREEPARTIE;
-	}
-	
-	
-	/**
-	 * Permet d'obtenir le nombre maximum de trésor à trouver
-	 * @return Nombre maximum de trésors à trouver
-	 */
-	public int getMaxTresor() {
-		return MAXTRESOR;
 	}
 	
 	
@@ -149,7 +131,9 @@ public class Controle implements Global {
 	public void tresorTrouve(String tresor, HashMap<String, String> lesTresors) {
 		// Arrêt du thread de Chrono
 		this.chrono.stop();
+		// Affiche le trésor qui vient d'être trouvé
 		this.laZone.afficheMessageTresor(tresor, lesTresors);
+		// Vérifie que le nombre max de trésor n'ait pas été atteint pour savoir s'il faut générer un nouveau trésor ou terminer la partie
 		if (this.choco.nbTresor() < MAXTRESOR) {
 			this.tresor.genereNouveauTresor();
 			// Reprise du thread de Chrono
@@ -166,11 +150,15 @@ public class Controle implements Global {
 	 */
 	public void finDeJeu() {
 		int nbTresors = this.choco.nbTresor();
+		// Récupère le tableau général
 		HashMap<String, String> lesTresors = this.choco.getTableauGeneral();
 		String message = "Fin de partie !";
+		// Vérifie combien de trésors ont été trouvés au cours de la partie
+		// Si aucun : simple message
 		if (nbTresors == 0) {
 			message += "\n Vous n'avez pas trouvé de trésors.";
 		}
+		// Si plusieurs : message composé de la liste des trésors avec leurs quantités
 		else {
 			message += "\nVous avez trouvé :";
 			for (Map.Entry<String, String> m : lesTresors.entrySet()) {
@@ -180,6 +168,7 @@ public class Controle implements Global {
 			}
 		}
 		JOptionPane.showMessageDialog(this.laZone, message);
+		// Fermeture de la fenêtre de Zone de Recherche
 		this.laZone.dispose();
 	}
 

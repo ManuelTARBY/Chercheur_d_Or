@@ -112,8 +112,8 @@ public class EntreeJeu extends JFrame implements Global {
 				+ "<br> ses trésors ! Les messages de votre chercheur"
 				+ "<br> vous donnent des indications sur la distance"
 				+ "<br> qui vous sépare du trésor."
-				+ "<br> Temps de recherche : " + this.controle.getDureePartie() + " secondes."
-				+ "<br> Nombre maximum de trésors : " + this.controle.getMaxTresor() + "."
+				+ "<br> Temps de recherche : " + DUREEPARTIE + " secondes."
+				+ "<br> Nombre maximum de trésors : " + MAXTRESOR + "."
 				+ "<br> Touches directionnelles : se déplacer."
 				+ "<br> Touche entrée : creuser.</html>";
 		this.presentation.setVerticalAlignment(SwingConstants.TOP);
