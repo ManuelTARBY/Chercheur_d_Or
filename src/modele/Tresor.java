@@ -4,6 +4,7 @@
 package modele;
 
 import java.util.Random;
+import java.util.HashMap;
 
 import javax.swing.JLabel;
 
@@ -34,6 +35,17 @@ public class Tresor implements Global {
 	 * Liste des trésors
 	 */
 	private String[] lesTresors = {"Diamant", "Pépite d'or", "Pépite d'argent", "Pépite de cuivre", "Morceau de charbon"};
+	
+	
+	/**
+	 * Liste des profondeurs
+	 */
+	private int[] lesProf = {50, 41, 35, 25, 12};
+	
+	/**
+	 * Dictionnaire des trésors: profondeurs
+	 */
+	private HashMap<String, Integer> profTresor = new HashMap<String, Integer>();
 
 	
 	/**
@@ -43,21 +55,33 @@ public class Tresor implements Global {
 		this.tresor = new JLabel();
 		this.tresor.setSize(TAILLETRESOR, TAILLETRESOR);
 		this.random = new Random();
-		genereNouveauTresor();
+		genererDicoProfTresors();
+		genererNouveauTresor();
 	}
+	
+	
+	/**
+	 * Remplit le dictionnaire trésor: profondeur
+	 */
+	public void genererDicoProfTresors() {
+		for (int i = 0; i < this.lesTresors.length; i++) {
+			this.profTresor.put(this.lesTresors[i], this.lesProf[i]);
+		}
+	}
+	
 	
 	/**
 	 * Gère la création d'un nouveau trésor
 	 */
-	public void genereNouveauTresor() {
+	public void genererNouveauTresor() {
 		genererPosition();
-		genereObjet();
+		genererObjet();
 	}
 	
 	/**
 	 * Gère l'affectation d'un objet au trésor
 	 */
-	public void genereObjet() {
+	public void genererObjet() {
 		int nb = this.random.nextInt(100);
 		int indice = this.lesTresors.length - 1;
 		if (nb < 5) {
@@ -106,6 +130,13 @@ public class Tresor implements Global {
 	 */
 	public String[] getListe() {
 		return this.lesTresors;
+	}
+	
+	/**
+	 * Récupère la profondeur du tresor
+	 */
+	public int getProf() {
+		return this.profTresor.get(this.getObjet());
 	}
 	
 }

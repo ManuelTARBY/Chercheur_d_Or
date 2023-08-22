@@ -73,6 +73,11 @@ public class ZoneRecherche extends JFrame implements Global {
 	 * Liste des objets dans le bandeau de droite
 	 */
 	private JLabel listeObjets;
+	
+	/**
+	 * JLabel du message sur la profondeur
+	 */
+	private JLabel msgProf;
 
 
 	/**
@@ -102,6 +107,12 @@ public class ZoneRecherche extends JFrame implements Global {
 		this.message = new JLabel();
 		this.message = this.controle.envoiLabelVersZone(MESSAGE);
 		this.contentPane.add(this.message);
+		
+		// Création du message indiquant la profondeur
+		this.msgProf = new JLabel();
+		this.msgProf.setSize(LARGEURMSGPROF, HAUTEURMSGPROF);
+		this.msgProf.setVisible(false);
+		this.contentPane.add(this.msgProf);
 
 		// Création du trésor
 		this.lblTresor = new JLabel();
@@ -144,8 +155,8 @@ public class ZoneRecherche extends JFrame implements Global {
 	
 	
 	/**
-	 * gère les actions du joueur
-	 * @param e touchée pressée par le joueur
+	 * Gère les actions du joueur
+	 * @param e Touche pressée par le joueur
 	 */
 	public void contentPane_KeyPressed(KeyEvent e) {
 		int toucheAppuyee = e.getKeyCode();
@@ -182,5 +193,23 @@ public class ZoneRecherche extends JFrame implements Global {
 		}
 		message += "</html";
 		this.listeObjets.setText(message);
+	}
+	
+	
+	/**
+	 * Permet de récupérer le message sur la profondeur
+	 * @return JLabel sur la profondeur
+	 */
+	public JLabel getMsgProf() {
+		return this.msgProf;
+	}
+	
+	
+	/**
+	 * Permet de modifier le message sur la profondeur
+	 * @param prof Profondeur du trésor
+	 */
+	public void setMsgProf(String prof) {
+		this.msgProf.setText("Profondeur : " + prof);
 	}
 }

@@ -42,6 +42,11 @@ public class Choco implements Global, Runnable {
 	private String orientation;
 	
 	/**
+	 * Propriété gérant le numéro du pas
+	 */
+	private int numPas;
+	
+	/**
 	 * Dictionnaire regroupant les trésors qu'il est possible de trouver et le nombre de trésor déterrés pour chacun d'eux
 	 */
 	private HashMap<String, String> listeDesTresors;
@@ -56,6 +61,21 @@ public class Choco implements Global, Runnable {
 	 */
 	private Color couleurMessage;
 	
+	/**
+	 * Capacité à se mouvoir
+	 */
+	private boolean amovible;
+	
+	/**
+	 * Distance d'avec le trésor
+	 */
+	private int prof;
+	
+	/**
+	 * Trésor en cours
+	 */
+	private Tresor tresor;
+	
 	
 	/**
 	 * Constructeur de la classe Choco
@@ -63,7 +83,9 @@ public class Choco implements Global, Runnable {
 	 */
 	public Choco(Controle controle) {
 		this.controle = controle;
+		this.amovible = true;
 		this.orientation = "d";
+		this.numPas = 1;
 		this.choco = new JLabel();
 		this.choco.setBounds(0, 0, TAILLECHOCO, TAILLECHOCO);
 		this.message = new JLabel();
@@ -77,21 +99,19 @@ public class Choco implements Global, Runnable {
 		initialiseMapTresors(this.controle.recupListe());
 		afficheChoco();
 		this.threadMessage = new Thread(this);
+		this.tresor = this.controle.recupTresor();
+		this.prof = this.tresor.getProf();
 	}
 	
 	
 	/**
-	 * Remplit le dictionnaire des trésors avec leur quantité trouvés
+	 * Remplit le dictionnaire des trésors avec leur quantité trouvée
 	 * @param tabTresors Tableau qui va servir à remplir les clés du HashMap général
 	 */
 	public void initialiseMapTresors(String[] tabTresors) {
 		for (String unTresor : tabTresors) {
 			this.listeDesTresors.put(unTresor, "0");
 		}
-////	Affiche la table générale dans la console
-//		for (Map.Entry<String, String> m : this.listeDesTresors.entrySet()) {
-//			System.out.println(m.getKey() + " : " + m.getValue());
-//		}
 	}
 	
 	
@@ -99,7 +119,8 @@ public class Choco implements Global, Runnable {
 	 * Gère l'affichage de choco
 	 */
 	public void afficheChoco() {
-		this.choco.setIcon(new ImageIcon(getClass().getClassLoader().getResource(CHOCOIMG + this.orientation + EXTIMAGE)));
+		String chemin = CHOCOIMG + this.orientation + this.numPas + EXTIMAGE;
+		this.choco.setIcon(new ImageIcon(getClass().getClassLoader().getResource(chemin)));
 		afficheMessage();
 	}
 	
@@ -117,7 +138,7 @@ public class Choco implements Global, Runnable {
 	
 	
 	/**
-	 * Gèreles déplacement de choco
+	 * Gère les déplacements de choco
 	 * @param direction Sens du déplacement
 	 */
 	public void deplacement(int direction) {
@@ -155,6 +176,13 @@ public class Choco implements Global, Runnable {
 			}
 			break;
 		}
+		if (this.numPas == 1) {
+			numPas++;
+		}
+		else {
+			numPas--;
+		}
+		
 		this.choco.setLocation(posX, posY);
 		afficheChoco();
 	}
@@ -168,9 +196,9 @@ public class Choco implements Global, Runnable {
 		JLabel lblTresor = tresor.getLblTresor();
 		double laDistance = calculDistance(this.choco, lblTresor);
 		if ( laDistance <= PALIERUN) {
-			this.message.setText("");
-			ajouterAuCompteurTresor(tresor.getObjet());
-			this.controle.tresorTrouve(tresor.getObjet(), this.listeDesTresors);
+			this.message.setText("Un trésor !");
+			// Lance la procédure de déterrage du trésor
+			deterrertresor(tresor);
 		}
 		else if (laDistance <= PALIERDEUX) {
 			this.message.setText("Kwouaaah !");
@@ -187,6 +215,33 @@ public class Choco implements Global, Runnable {
 		}
 		this.threadMessage = new Thread(this);
 		this.threadMessage.start();
+	}
+	
+	/**
+	 * Procédure pour déterrer un trésor repéré
+	 * @param tresor Trésor en cours de déterrage
+	 */
+	public void deterrertresor(Tresor tresor) {
+		// Bloque les déplacements de choco
+		this.amovible = false;
+		// Affiche le message de la profondeur
+		this.controle.afficherMsgProf(String.valueOf(this.prof));
+		if (this.prof >= 0) {
+			this.prof -= Global.BEC;
+		}
+		// Le trésor a été déterré
+		else {
+			this.controle.cacherMsgProf();
+			this.message.setText("");
+			// Ajoute le trésor au compteur
+			ajouterAuCompteurTresor(tresor.getObjet());
+			this.controle.tresorTrouve(tresor.getObjet(), this.listeDesTresors);
+			// Choco peut à nouveau se déplacer
+			this.amovible = true;
+			// Récupération du nouveau trésor et de sa profondeur
+			this.tresor = this.controle.recupTresor();
+			this.prof = this.tresor.getProf();
+		}
 	}
 	
 	
@@ -256,7 +311,6 @@ public class Choco implements Global, Runnable {
 			Thread.sleep(millisec, nanosec);			
 		}
 		catch (Exception e){
-//			System.out.println("Erreur sur l'appel de la méthode pause()");
 		}
 	}
 	
@@ -267,6 +321,11 @@ public class Choco implements Global, Runnable {
 	 */
 	public HashMap<String, String> getTableauGeneral(){
 		return this.listeDesTresors;
+	}
+	
+	
+	public boolean getAmovible() {
+		return this.amovible;
 	}
 	
 	

@@ -108,6 +108,7 @@ public class Controle implements Global {
 				this.choco.creuser(this.tresor);
 				break;
 			default:
+				if (this.choco.getAmovible() != false)
 				this.choco.deplacement(touche);
 				break;
 		}
@@ -120,6 +121,14 @@ public class Controle implements Global {
 	 */
 	public String[] recupListe() {
 		return this.tresor.getListe();
+	}
+	
+	/**
+	 * Recup le trésor en cours
+	 * @return Tresor en cours
+	 */
+	public Tresor recupTresor() {
+		return this.tresor;
 	}
 	
 	
@@ -135,7 +144,7 @@ public class Controle implements Global {
 		this.laZone.afficheMessageTresor(tresor, lesTresors);
 		// Vérifie que le nombre max de trésor n'ait pas été atteint pour savoir s'il faut générer un nouveau trésor ou terminer la partie
 		if (this.choco.nbTresor() < MAXTRESOR) {
-			this.tresor.genereNouveauTresor();
+			this.tresor.genererNouveauTresor();
 			// Reprise du thread de Chrono
 			this.chrono.reprise();
 		}
@@ -156,7 +165,7 @@ public class Controle implements Global {
 		// Vérifie combien de trésors ont été trouvés au cours de la partie
 		// Si aucun : simple message
 		if (nbTresors == 0) {
-			message += "\n Vous n'avez pas trouvé de trésors.";
+			message += "\nVous n'avez pas trouvé de trésors.";
 		}
 		// Si plusieurs : message composé de la liste des trésors avec leurs quantités
 		else {
@@ -167,9 +176,32 @@ public class Controle implements Global {
 				}
 			}
 		}
+		// Affichage du message final dans une boîte de dialogue
 		JOptionPane.showMessageDialog(this.laZone, message);
 		// Fermeture de la fenêtre de Zone de Recherche
 		this.laZone.dispose();
+	}
+	
+	/**
+	 * Cache le message indiquant la profondeur
+	 */
+	public void cacherMsgProf() {
+		this.laZone.getMsgProf().setVisible(false);
+	}
+	
+	/**
+	 * Affiche le message indiquant la profondeur
+	 * @param prof Profondeur du trésor
+	 */
+	public void afficherMsgProf(String prof) {
+		this.laZone.setMsgProf(prof);
+		this.laZone.getMsgProf().setVisible(true);
+		if (this.choco.getLblChoco().getX() + this.choco.getLblChoco().getWidth() + this.laZone.getMsgProf().getWidth() < TAILLEFOND) {
+			this.laZone.getMsgProf().setLocation(this.choco.getLblChoco().getX() + this.choco.getLblChoco().getWidth(), this.choco.getLblChoco().getY() + this.choco.getLblChoco().getHeight()/2);			
+		}
+		else {
+			this.laZone.getMsgProf().setLocation(this.choco.getLblChoco().getX() - this.laZone.getMsgProf().getWidth(), this.choco.getLblChoco().getY() + this.choco.getLblChoco().getHeight()/2);
+		}
 	}
 
 }

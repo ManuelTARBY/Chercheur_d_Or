@@ -52,6 +52,11 @@ public interface Global {
 	int MAXTRESOR = 8;
 	
 	/**
+	 * Puissance du bec
+	 */
+	int BEC = 8;
+	
+	/**
 	 * Extension image
 	 */
 	String EXTENSION = ".jpg";
@@ -77,7 +82,7 @@ public interface Global {
 	String EXTIMAGE = ".png";
 	
 	/**
-	 * Chemin vers le choco qui regarde à droite
+	 * En tête du nom de fichier de l'image de Chocobo
 	 */
 	String CHOCOIMG = "Chocobo";
 	
@@ -97,9 +102,24 @@ public interface Global {
 	String MESSAGE = "Message";
 	
 	/**
+	 * Valeur pour envoyer le message de profondeur
+	 */
+	String MSGPROF = "MSGPROF";
+	
+	/**
 	 * Valeur pour envoyer le chrono
 	 */
 	String CHRONO = "Chrono";
+	
+	/**
+	 * Largeur message profondeur
+	 */
+	int LARGEURMSGPROF = 90;
+	
+	/**
+	 * Hauteur messagr profondeur
+	 */
+	int HAUTEURMSGPROF = 20;
 	
 	/**
 	 * Taille du chocobo
@@ -149,13 +169,11 @@ public interface Global {
 	/**
 	 * Palier 1 de recherche
 	 */
-	int PALIERDEUX = 150;
+	int PALIERDEUX = 120;
 	
 	/**
 	 * Palier 1 de recherche
 	 */
-	int PALIERTROIS = 250;
-	
-	
+	int PALIERTROIS = 200;
 
 }

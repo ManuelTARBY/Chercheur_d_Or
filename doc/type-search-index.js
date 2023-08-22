@@ -1,1 +1,1 @@
-typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"modele","l":"Choco"},{"p":"modele","l":"Chrono"},{"p":"controleur","l":"Controle"},{"p":"vue","l":"EntreeJeu"},{"p":"controleur","l":"Global"},{"p":"modele","l":"Tresor"},{"p":"vue","l":"ZoneRecherche"}];updateSearchResults();
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"vue","l":"ZoneRecherche"}];updateSearchResults();
