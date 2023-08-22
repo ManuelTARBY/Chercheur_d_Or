@@ -187,6 +187,7 @@ public class Controle implements Global {
 	 */
 	public void cacherMsgProf() {
 		this.laZone.getMsgProf().setVisible(false);
+		this.laZone.getFondProf().setVisible(false);
 	}
 	
 	/**
@@ -196,11 +197,14 @@ public class Controle implements Global {
 	public void afficherMsgProf(String prof) {
 		this.laZone.setMsgProf(prof);
 		this.laZone.getMsgProf().setVisible(true);
+		this.laZone.getFondProf().setVisible(true);
 		if (this.choco.getLblChoco().getX() + this.choco.getLblChoco().getWidth() + this.laZone.getMsgProf().getWidth() < TAILLEFOND) {
-			this.laZone.getMsgProf().setLocation(this.choco.getLblChoco().getX() + this.choco.getLblChoco().getWidth(), this.choco.getLblChoco().getY() + this.choco.getLblChoco().getHeight()/2);			
+			this.laZone.getMsgProf().setLocation(this.choco.getLblChoco().getX() + this.choco.getLblChoco().getWidth(), this.choco.getLblChoco().getY() + this.choco.getLblChoco().getHeight()/2);
+			this.laZone.getFondProf().setLocation(this.choco.getLblChoco().getX() + this.choco.getLblChoco().getWidth(), this.choco.getLblChoco().getY() + this.choco.getLblChoco().getHeight()/2);
 		}
 		else {
 			this.laZone.getMsgProf().setLocation(this.choco.getLblChoco().getX() - this.laZone.getMsgProf().getWidth(), this.choco.getLblChoco().getY() + this.choco.getLblChoco().getHeight()/2);
+			this.laZone.getFondProf().setLocation(this.choco.getLblChoco().getX() - this.laZone.getMsgProf().getWidth(), this.choco.getLblChoco().getY() + this.choco.getLblChoco().getHeight()/2);
 		}
 	}
 

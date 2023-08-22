@@ -1,6 +1,7 @@
 package vue;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -78,6 +79,11 @@ public class ZoneRecherche extends JFrame implements Global {
 	 * JLabel du message sur la profondeur
 	 */
 	private JLabel msgProf;
+	
+	/**
+	 * Fond du JLabel indiquant la profondeur
+	 */
+	private JLabel fondProf;
 
 
 	/**
@@ -109,10 +115,19 @@ public class ZoneRecherche extends JFrame implements Global {
 		this.contentPane.add(this.message);
 		
 		// Création du message indiquant la profondeur
-		this.msgProf = new JLabel();
+		this.msgProf = new JLabel("", SwingConstants.CENTER);
 		this.msgProf.setSize(LARGEURMSGPROF, HAUTEURMSGPROF);
+		this.msgProf.setFont(new Font("Comic", Font.BOLD, 10));
 		this.msgProf.setVisible(false);
 		this.contentPane.add(this.msgProf);
+		
+		// Création du fond de message indiquant la profondeur
+		this.fondProf = new JLabel();
+		String chemin = FONDMSGPROF + EXTIMAGE;
+		this.fondProf.setIcon(new ImageIcon(getClass().getClassLoader().getResource(chemin)));
+		this.fondProf.setSize(LARGEURMSGPROF, HAUTEURMSGPROF);
+		this.fondProf.setVisible(false);
+		this.contentPane.add(this.fondProf);
 
 		// Création du trésor
 		this.lblTresor = new JLabel();
@@ -211,5 +226,13 @@ public class ZoneRecherche extends JFrame implements Global {
 	 */
 	public void setMsgProf(String prof) {
 		this.msgProf.setText("Profondeur : " + prof);
+	}
+	
+	/**
+	 * Permet de récupérer le fond du message sur la profondeur
+	 * @return JLabel du fond du message sur la profondeur
+	 */
+	public JLabel getFondProf() {
+		return this.fondProf;
 	}
 }

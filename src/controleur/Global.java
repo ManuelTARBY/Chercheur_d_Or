@@ -57,6 +57,11 @@ public interface Global {
 	int BEC = 8;
 	
 	/**
+	 * Nom du fichier pour le fond du message de profondeur
+	 */
+	String FONDMSGPROF = "Fond profondeur";
+	
+	/**
 	 * Extension image
 	 */
 	String EXTENSION = ".jpg";
